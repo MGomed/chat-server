@@ -2,6 +2,7 @@ package grpc_adapter
 
 import (
 	"context"
+	"log"
 	"net"
 
 	domain "github.com/MGomed/chat_server/internal/domain"
@@ -10,6 +11,7 @@ import (
 	gofakeit "github.com/brianvoe/gofakeit"
 	grpc "google.golang.org/grpc"
 	reflection "google.golang.org/grpc/reflection"
+	"google.golang.org/protobuf/encoding/protojson"
 	emptypb "google.golang.org/protobuf/types/known/emptypb"
 )
 
@@ -23,11 +25,13 @@ type ChatAPIUsecase interface {
 type server struct {
 	api.UnimplementedChatAPIServer
 
+	logger  *log.Logger
 	usecase ChatAPIUsecase
 }
 
-func NewGrpcServer(usecase ChatAPIUsecase) *server {
+func NewGrpcServer(logger *log.Logger, usecase ChatAPIUsecase) *server {
 	return &server{
+		logger:  logger,
 		usecase: usecase,
 	}
 }
@@ -41,15 +45,28 @@ func (s *server) Serve(listener net.Listener) error {
 }
 
 func (s *server) Create(ctx context.Context, req *api.CreateRequest) (*api.CreateResponse, error) {
+	opt := protojson.MarshalOptions{Indent: "    "}
+	msg, _ := opt.Marshal(req)
+	s.logger.Printf("<<<< Received create request:\n%s", msg)
+
 	//TODO correct the call ufter implementation
 	_, _ = s.usecase.Create(ctx, domain.CreateReqFromAPIToDomain(req))
 
-	return &api.CreateResponse{
+	resp := &api.CreateResponse{
 		Id: gofakeit.Int64(),
-	}, nil
+	}
+
+	msg, _ = opt.Marshal(resp)
+	s.logger.Printf(">>>> Sent create response:\n%s", msg)
+
+	return resp, nil
 }
 
 func (s *server) Delete(ctx context.Context, req *api.DeleteRequest) (*emptypb.Empty, error) {
+	opt := protojson.MarshalOptions{Indent: "    "}
+	msg, _ := opt.Marshal(req)
+	s.logger.Printf("<<<< Received delete request:\n%s", msg)
+
 	//TODO correct the call ufter implementation
 	_ = s.usecase.Delete(ctx, domain.DeleteReqFromAPIToDomain(req))
 
@@ -57,6 +74,10 @@ func (s *server) Delete(ctx context.Context, req *api.DeleteRequest) (*emptypb.E
 }
 
 func (s *server) SendMessage(ctx context.Context, req *api.SendRequest) (*emptypb.Empty, error) {
+	opt := protojson.MarshalOptions{Indent: "    "}
+	msg, _ := opt.Marshal(req)
+	s.logger.Printf("<<<< Received send message request:\n%s", msg)
+
 	//TODO correct the call ufter implementation
 	_ = s.usecase.SendMessage(ctx, domain.SendReqFromAPIToDomain(req))
 

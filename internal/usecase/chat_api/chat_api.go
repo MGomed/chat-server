@@ -2,15 +2,19 @@ package chatapi_usecase
 
 import (
 	"context"
+	"log"
 
 	domain "github.com/MGomed/chat_server/internal/domain"
 )
 
 type usecase struct {
+	logger *log.Logger
 }
 
-func NewChatAPIUsecase() *usecase {
-	return &usecase{}
+func NewChatAPIUsecase(logger *log.Logger) *usecase {
+	return &usecase{
+		logger: logger,
+	}
 }
 
 func (uc *usecase) Create(ctx context.Context, req *domain.CreateRequest) (*domain.CreateResponse, error) {

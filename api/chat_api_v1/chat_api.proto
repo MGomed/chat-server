@@ -10,7 +10,7 @@ option go_package = "github.com/MGomed/auth/pkg/chat_api;chat_api";
 service ChatAPI {
     rpc Create (CreateRequest) returns (CreateResponse);
     rpc Delete (DeleteRequest) returns (google.protobuf.Empty);
-    rpc SendMeassage (SendRequest) returns (google.protobuf.Empty);
+    rpc SendMessage (SendRequest) returns (google.protobuf.Empty);
 }
 
 message CreateRequest {
