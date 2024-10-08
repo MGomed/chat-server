@@ -29,6 +29,7 @@ type server struct {
 	usecase ChatAPIUsecase
 }
 
+// NewGrpcServer is server constructor
 func NewGrpcServer(logger *log.Logger, usecase ChatAPIUsecase) *server {
 	return &server{
 		logger:  logger,
@@ -36,6 +37,8 @@ func NewGrpcServer(logger *log.Logger, usecase ChatAPIUsecase) *server {
 	}
 }
 
+// Serve gets net.Listener and bind it to grpc server,
+// also blocking execution by calling Serve()
 func (s *server) Serve(listener net.Listener) error {
 	server := grpc.NewServer()
 	reflection.Register(server)
@@ -44,8 +47,9 @@ func (s *server) Serve(listener net.Listener) error {
 	return server.Serve(listener)
 }
 
+// Create creates new chat
 func (s *server) Create(ctx context.Context, req *api.CreateRequest) (*api.CreateResponse, error) {
-	opt := protojson.MarshalOptions{Indent: "    "}
+	opt := protojson.MarshalOptions{Indent: "    "} // for beautiful logs
 	msg, _ := opt.Marshal(req)
 	s.logger.Printf("<<<< Received create request:\n%s", msg)
 
@@ -62,8 +66,9 @@ func (s *server) Create(ctx context.Context, req *api.CreateRequest) (*api.Creat
 	return resp, nil
 }
 
+// Delete removes chat by id
 func (s *server) Delete(ctx context.Context, req *api.DeleteRequest) (*emptypb.Empty, error) {
-	opt := protojson.MarshalOptions{Indent: "    "}
+	opt := protojson.MarshalOptions{Indent: "    "} // for beautiful logs
 	msg, _ := opt.Marshal(req)
 	s.logger.Printf("<<<< Received delete request:\n%s", msg)
 
@@ -73,8 +78,9 @@ func (s *server) Delete(ctx context.Context, req *api.DeleteRequest) (*emptypb.E
 	return &emptypb.Empty{}, nil
 }
 
+// SendMessage send user's message to chat
 func (s *server) SendMessage(ctx context.Context, req *api.SendRequest) (*emptypb.Empty, error) {
-	opt := protojson.MarshalOptions{Indent: "    "}
+	opt := protojson.MarshalOptions{Indent: "    "} // for beautiful logs
 	msg, _ := opt.Marshal(req)
 	s.logger.Printf("<<<< Received send message request:\n%s", msg)
 

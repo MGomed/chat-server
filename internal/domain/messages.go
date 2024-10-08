@@ -49,7 +49,7 @@ type SendRequest struct {
 	Timestamp time.Time
 }
 
-// SendMsgReqFromAPIToDomain converts api.SendRequest to domain.SendRequest
+// SendReqFromAPIToDomain converts api.SendRequest to domain.SendRequest
 func SendReqFromAPIToDomain(req *api.SendRequest) *SendRequest {
 	return &SendRequest{
 		From:      req.From,

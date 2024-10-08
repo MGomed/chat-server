@@ -11,25 +11,29 @@ type usecase struct {
 	logger *log.Logger
 }
 
+// NewChatAPIUsecase is a usecase constructor
 func NewChatAPIUsecase(logger *log.Logger) *usecase {
 	return &usecase{
 		logger: logger,
 	}
 }
 
-func (uc *usecase) Create(ctx context.Context, req *domain.CreateRequest) (*domain.CreateResponse, error) {
+// Create creates new chat
+func (uc *usecase) Create(_ context.Context, _ *domain.CreateRequest) (*domain.CreateResponse, error) {
 	// TODO some business logic
 
 	return nil, nil
 }
 
-func (uc *usecase) Delete(ctx context.Context, req *domain.DeleteRequest) error {
+// Delete removes chat by id
+func (uc *usecase) Delete(_ context.Context, _ *domain.DeleteRequest) error {
 	// TODO some business logic
 
 	return nil
 }
 
-func (uc *usecase) SendMessage(ctx context.Context, req *domain.SendRequest) error {
+// SendMessage send user's message to chat
+func (uc *usecase) SendMessage(_ context.Context, _ *domain.SendRequest) error {
 	// TODO some business logic
 
 	return nil
