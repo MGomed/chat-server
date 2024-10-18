@@ -13,8 +13,14 @@ service ChatAPI {
     rpc SendMessage (SendRequest) returns (google.protobuf.Empty);
 }
 
+message ChatMember {
+    string name  = 1;
+    string email = 2;
+}
+
 message CreateRequest {
-    repeated string usernames = 1;
+    string              name    = 1;
+    repeated ChatMember members = 2;
 }
 
 message CreateResponse {

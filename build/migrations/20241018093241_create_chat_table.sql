@@ -1,0 +1,18 @@
+-- +goose Up
+CREATE TABLE IF NOT EXISTS chat (
+    id SERIAL PRIMARY KEY,
+    name VARCHAR NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE chat_member (
+    id SERIAL PRIMARY KEY,
+    chat_id INT NOT NULL REFERENCES chat(id) ON DELETE CASCADE,
+    name VARCHAR NOT NULL,
+    email VARCHAR NOT NULL,
+    joined_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+-- +goose Down
+DROP TABLE IF EXISTS chat;
+DROP TABLE IF EXISTS chat_member;
