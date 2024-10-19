@@ -6,6 +6,7 @@ on:
   pull_request:
     branches: [ main, master ]
 
+<<<<<<< HEAD
 env:
   REGISTRY: "cr.selcloud.ru/mgomed"
   IMAGE_NAME: "chat-service"
@@ -15,6 +16,8 @@ env:
   DB_IMAGE_NAME: "postgres:14-alpine3.17"
   DB_CONTAINER_NAME: "chat-db-container"
 
+=======
+>>>>>>> 2cd7fc411283ce115961b3f8b7bd47e5b62ed01c
 jobs:
   build-and-test:
     runs-on: ubuntu-latest
