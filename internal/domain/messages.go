@@ -6,15 +6,38 @@ import (
 	api "github.com/MGomed/chat_server/pkg/chat_api"
 )
 
+// ChatMember domain version of api.ChatMember
+type ChatMember struct {
+	Name  string
+	Email string
+}
+
+// ChatInfo domain version of api.ChatInfo
+type ChatInfo struct {
+	Name    string
+	Members []ChatMember
+}
+
 // CreateRequest domain version of api.CreateRequest
 type CreateRequest struct {
-	Usernames []string
+	Info *ChatInfo
 }
 
 // CreateReqFromAPIToDomain converts api.CreateRequest to domain.CreateRequest
 func CreateReqFromAPIToDomain(req *api.CreateRequest) *CreateRequest {
+	members := make([]ChatMember, 0, len(req.Members))
+	for _, member := range req.Members {
+		members = append(members, ChatMember{
+			Name:  member.Name,
+			Email: member.Email,
+		})
+	}
+
 	return &CreateRequest{
-		Usernames: req.Usernames,
+		Info: &ChatInfo{
+			Name:    req.Name,
+			Members: members,
+		},
 	}
 }
 
