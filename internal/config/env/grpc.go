@@ -16,8 +16,8 @@ type grpcConfig struct {
 	port string
 }
 
-// NewGRPCConfig is grpcConfig struct constructor
-func NewGRPCConfig() (*grpcConfig, error) {
+// NewAPIConfig is grpcConfig struct constructor
+func NewAPIConfig() (*grpcConfig, error) {
 	host := os.Getenv(grpcHostName)
 	if len(host) == 0 {
 		return nil, fmt.Errorf("%w: %v", errEnvNotFound, grpcHostName)
