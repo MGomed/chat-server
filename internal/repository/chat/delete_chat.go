@@ -6,17 +6,19 @@ import (
 
 	sq "github.com/Masterminds/squirrel"
 
+	consts "github.com/MGomed/chat_server/consts"
+	errors "github.com/MGomed/chat_server/internal/repository/errors"
 	db "github.com/MGomed/chat_server/pkg/client/db"
 )
 
 func (r *repository) DeleteChat(ctx context.Context, id int64) error {
-	builder := sq.Delete(chatTable).
+	builder := sq.Delete(consts.ChatTable).
 		PlaceholderFormat(sq.Dollar).
-		Where(sq.Eq{chatIDColumn: id})
+		Where(sq.Eq{consts.ChatIDColumn: id})
 
 	query, args, err := builder.ToSql()
 	if err != nil {
-		return fmt.Errorf("%w - %v : %w", errQueryBuild, query, err)
+		return fmt.Errorf("%w - %v : %w", errors.ErrQueryBuild, query, err)
 	}
 
 	q := db.Query{
@@ -26,11 +28,11 @@ func (r *repository) DeleteChat(ctx context.Context, id int64) error {
 
 	res, err := r.dbc.DB().Exec(ctx, q, args...)
 	if err != nil {
-		return fmt.Errorf("%w - %v : %w", errQueryExecute, query, err)
+		return fmt.Errorf("%w - %v : %w", errors.ErrQueryExecute, query, err)
 	}
 
 	if res.RowsAffected() == 0 {
-		return fmt.Errorf("%w with id: %v", errNoSuchChat, id)
+		return fmt.Errorf("%w with id: %v", errors.ErrNoSuchChat, id)
 	}
 
 	return nil

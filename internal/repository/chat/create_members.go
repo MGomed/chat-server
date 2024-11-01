@@ -6,14 +6,16 @@ import (
 
 	sq "github.com/Masterminds/squirrel"
 
+	consts "github.com/MGomed/chat_server/consts"
 	service_model "github.com/MGomed/chat_server/internal/model"
+	errors "github.com/MGomed/chat_server/internal/repository/errors"
 	db "github.com/MGomed/chat_server/pkg/client/db"
 )
 
 func (r *repository) CreateMembers(ctx context.Context, chatID int64, members ...service_model.ChatMember) error {
-	builder := sq.Insert(chatMemberTable).
+	builder := sq.Insert(consts.ChatMemberTable).
 		PlaceholderFormat(sq.Dollar).
-		Columns(chatMembersChatIDColumn, chatMemberNameColumn, chatMemberEmailColumn)
+		Columns(consts.ChatMembersChatIDColumn, consts.ChatMemberNameColumn, consts.ChatMemberEmailColumn)
 
 	for _, member := range members {
 		builder = builder.Values(chatID, member.Name, member.Email)
@@ -21,7 +23,7 @@ func (r *repository) CreateMembers(ctx context.Context, chatID int64, members ..
 
 	query, args, err := builder.ToSql()
 	if err != nil {
-		return fmt.Errorf("%w - %v : %w", errQueryBuild, query, err)
+		return fmt.Errorf("%w - %v : %w", errors.ErrQueryBuild, query, err)
 	}
 
 	q := db.Query{
@@ -31,7 +33,7 @@ func (r *repository) CreateMembers(ctx context.Context, chatID int64, members ..
 
 	_, err = r.dbc.DB().Query(ctx, q, args...)
 	if err != nil {
-		return fmt.Errorf("%w - %v : %w", errQueryExecute, query, err)
+		return fmt.Errorf("%w - %v : %w", errors.ErrQueryExecute, query, err)
 	}
 
 	return nil
