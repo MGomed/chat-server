@@ -12,7 +12,8 @@ import (
 	db "github.com/MGomed/chat_server/pkg/client/db"
 )
 
-func (r *repository) CreateMembers(ctx context.Context, chatID int64, members ...service_model.ChatMember) error {
+// CreateMembers creates members in Postgres DB
+func (r *repository) CreateMembers(ctx context.Context, chatID int64, members []service_model.ChatMember) error {
 	builder := sq.Insert(consts.ChatMemberTable).
 		PlaceholderFormat(sq.Dollar).
 		Columns(consts.ChatMembersChatIDColumn, consts.ChatMemberNameColumn, consts.ChatMemberEmailColumn)

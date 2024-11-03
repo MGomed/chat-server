@@ -21,7 +21,7 @@ func (s *service) Create(ctx context.Context, chat *service_model.ChatInfo) (int
 		}
 
 		if len(chat.Members) > 0 {
-			errTx = s.repo.CreateMembers(ctx, id, chat.Members...)
+			errTx = s.repo.CreateMembers(ctx, id, chat.Members)
 			if errTx != nil {
 				s.logger.Printf("Failed to add chat_members %v in database: %v", chat.Members, errTx)
 

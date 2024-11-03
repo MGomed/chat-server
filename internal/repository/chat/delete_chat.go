@@ -11,10 +11,11 @@ import (
 	db "github.com/MGomed/chat_server/pkg/client/db"
 )
 
+// DeleteChat deletes a chat from Postgres DB
 func (r *repository) DeleteChat(ctx context.Context, id int64) error {
 	builder := sq.Delete(consts.ChatTable).
-		PlaceholderFormat(sq.Dollar).
-		Where(sq.Eq{consts.ChatIDColumn: id})
+		Where(sq.Eq{consts.ChatIDColumn: id}).
+		PlaceholderFormat(sq.Dollar)
 
 	query, args, err := builder.ToSql()
 	if err != nil {

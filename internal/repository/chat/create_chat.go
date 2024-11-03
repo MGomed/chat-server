@@ -11,12 +11,13 @@ import (
 	db "github.com/MGomed/chat_server/pkg/client/db"
 )
 
+// CreateChat creates a chat in Postgres DB
 func (r *repository) CreateChat(ctx context.Context, name string) (int64, error) {
 	builder := sq.Insert(consts.ChatTable).
-		PlaceholderFormat(sq.Dollar).
 		Columns(consts.ChatNameColumn).
 		Values(name).
-		Suffix("RETURNING id")
+		Suffix("RETURNING id").
+		PlaceholderFormat(sq.Dollar)
 
 	query, args, err := builder.ToSql()
 	if err != nil {
