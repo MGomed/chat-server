@@ -37,3 +37,19 @@ func (r *repository) CreateChat(ctx context.Context, name string) (int64, error)
 
 	return chatID, nil
 }
+
+type row struct {
+	expectedID int64
+	err        error
+}
+
+func (r row) Scan(dest ...interface{}) error {
+	if r.err != nil {
+		return r.err
+	}
+
+	val, _ := dest[0].(*int64)
+	*val = r.expectedID
+
+	return nil
+}

@@ -3,21 +3,27 @@ module github.com/MGomed/chat_server
 go 1.22
 
 require (
-	github.com/MGomed/auth v0.0.0-20241010144814-6781d68f91ae
 	github.com/Masterminds/squirrel v1.5.4
-	github.com/brianvoe/gofakeit v3.18.0+incompatible
+	github.com/golang/mock v1.6.0
 	github.com/golang/protobuf v1.5.4
-	github.com/jackc/pgtype v1.14.3
 	github.com/jackc/pgx/v4 v4.18.3
 	github.com/joho/godotenv v1.5.1
+	github.com/stretchr/testify v1.8.1
 	google.golang.org/grpc v1.65.0
-	google.golang.org/protobuf v1.34.2
+	google.golang.org/protobuf v1.35.1
+)
+
+require (
+	github.com/davecgh/go-spew v1.1.1 // indirect
+	github.com/jackc/pgtype v1.14.3 // indirect
+	github.com/pmezard/go-difflib v1.0.0 // indirect
+	gopkg.in/yaml.v3 v3.0.1 // indirect
 )
 
 require (
 	github.com/georgysavva/scany v1.2.2
 	github.com/jackc/chunkreader/v2 v2.0.1 // indirect
-	github.com/jackc/pgconn v1.14.3 // indirect
+	github.com/jackc/pgconn v1.14.3
 	github.com/jackc/pgio v1.0.0 // indirect
 	github.com/jackc/pgpassfile v1.0.0 // indirect
 	github.com/jackc/pgproto3/v2 v2.3.3 // indirect
