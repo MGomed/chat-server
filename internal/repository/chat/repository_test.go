@@ -13,7 +13,7 @@ import (
 
 	service_model "github.com/MGomed/chat_server/internal/model"
 	repo_errors "github.com/MGomed/chat_server/internal/repository/errors"
-	db_mock "github.com/MGomed/chat_server/pkg/client/db/mocks"
+	db_mock "github.com/MGomed/common/pkg/client/db/mocks"
 )
 
 var (

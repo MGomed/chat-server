@@ -11,11 +11,11 @@ import (
 	chat_repo "github.com/MGomed/chat_server/internal/repository/chat"
 	service "github.com/MGomed/chat_server/internal/service"
 	chat_service "github.com/MGomed/chat_server/internal/service/chat"
-	db "github.com/MGomed/chat_server/pkg/client/db"
-	pg "github.com/MGomed/chat_server/pkg/client/db/pg"
-	transaction "github.com/MGomed/chat_server/pkg/client/db/transaction"
-	closer "github.com/MGomed/chat_server/pkg/closer"
-	logger "github.com/MGomed/chat_server/pkg/logger"
+	db "github.com/MGomed/common/pkg/client/db"
+	pg "github.com/MGomed/common/pkg/client/db/pg"
+	transaction "github.com/MGomed/common/pkg/client/db/transaction"
+	closer "github.com/MGomed/common/pkg/closer"
+	logger "github.com/MGomed/common/pkg/logger"
 )
 
 type serviceProvider struct {

@@ -8,7 +8,7 @@ import (
 
 	consts "github.com/MGomed/chat_server/consts"
 	errors "github.com/MGomed/chat_server/internal/repository/errors"
-	db "github.com/MGomed/chat_server/pkg/client/db"
+	db "github.com/MGomed/common/pkg/client/db"
 )
 
 // CreateChat creates a chat in Postgres DB
