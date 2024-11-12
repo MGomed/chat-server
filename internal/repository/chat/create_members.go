@@ -9,7 +9,7 @@ import (
 	consts "github.com/MGomed/chat_server/consts"
 	service_model "github.com/MGomed/chat_server/internal/model"
 	errors "github.com/MGomed/chat_server/internal/repository/errors"
-	db "github.com/MGomed/chat_server/pkg/client/db"
+	db "github.com/MGomed/common/pkg/client/db"
 )
 
 // CreateMembers creates members in Postgres DB

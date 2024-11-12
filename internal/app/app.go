@@ -10,7 +10,7 @@ import (
 
 	env_config "github.com/MGomed/chat_server/internal/config/env"
 	chat_api "github.com/MGomed/chat_server/pkg/chat_api"
-	closer "github.com/MGomed/chat_server/pkg/closer"
+	closer "github.com/MGomed/common/pkg/closer"
 )
 
 var configPath string

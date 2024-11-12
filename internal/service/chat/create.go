@@ -8,35 +8,22 @@ import (
 
 // Create creates new chat
 func (s *service) Create(ctx context.Context, chat *service_model.ChatInfo) (int64, error) {
-	var id int64
-
-	err := s.txManager.ReadCommitted(ctx, func(ctx context.Context) error {
-		var errTx error
-
-		id, errTx = s.repo.CreateChat(ctx, chat.Name)
-		if errTx != nil {
-			s.logger.Printf("Failed to add chat %v in database: %v", chat.Name, errTx)
-
-			return errTx
-		}
-
-		if len(chat.Members) > 0 {
-			errTx = s.repo.CreateMembers(ctx, id, chat.Members)
-			if errTx != nil {
-				s.logger.Printf("Failed to add chat_members %v in database: %v", chat.Members, errTx)
-
-				return errTx
-			}
-		}
-
-		s.logger.Printf("Successfully added chat with id: %v", id)
-
-		return nil
-	})
-
+	id, err := s.repo.CreateChat(ctx, chat.Name)
 	if err != nil {
+		s.logger.Printf("Failed to add chat %v in database: %v", chat.Name, err)
+
 		return 0, err
 	}
+
+	if len(chat.Members) > 0 {
+		if err := s.repo.CreateMembers(ctx, id, chat.Members); err != nil {
+			s.logger.Printf("Failed to add chat_members %v in database: %v", chat.Members, err)
+
+			return id, err
+		}
+	}
+
+	s.logger.Printf("Successfully added chat with id: %v", id)
 
 	return id, nil
 }
