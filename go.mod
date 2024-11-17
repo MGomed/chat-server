@@ -5,6 +5,7 @@ go 1.22.4
 require (
 	github.com/MGomed/common v1.0.1
 	github.com/Masterminds/squirrel v1.5.4
+	github.com/envoyproxy/protoc-gen-validate v1.0.4
 	github.com/golang/mock v1.6.0
 	github.com/golang/protobuf v1.5.4
 	github.com/joho/godotenv v1.5.1

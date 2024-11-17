@@ -4,6 +4,7 @@ package chat_api;
 
 import "google/protobuf/timestamp.proto";
 import "google/protobuf/empty.proto";
+import "validate/validate.proto";
 
 option go_package = "github.com/MGomed/auth/pkg/chat_api;chat_api";
 
@@ -14,17 +15,17 @@ service ChatAPI {
 }
 
 message ChatMember {
-    string name  = 1;
-    string email = 2;
+    string name  = 1 [(validate.rules).string = {min_len: 2, max_len: 32}];
+    string email = 2 [(validate.rules).string = {email: true}];
 }
 
 message ChatInfo {
-    string              name    = 1;
+    string              name    = 1 [(validate.rules).string = {min_len: 2, max_len: 32}];
     repeated ChatMember members = 2;
 }
 
 message CreateRequest {
-    ChatInfo chat = 1;
+    ChatInfo chat = 1 [(validate.rules).message.required = true];
 }
 
 message CreateResponse {
@@ -32,15 +33,15 @@ message CreateResponse {
 }
 
 message DeleteRequest {
-    int64 id = 1;
+    int64 id = 1 [(validate.rules).int64.gt = 0];
 }
 
 message MessageInfo {
-    string                    from      = 1;
+    string                    from      = 1 [(validate.rules).string = {min_len: 2, max_len: 32}];
     string                    text      = 2;
     google.protobuf.Timestamp timestamp = 3;
 }
 
 message SendRequest {
-    MessageInfo info = 1;
+    MessageInfo info = 1 [(validate.rules).message.required = true];
 }

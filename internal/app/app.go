@@ -6,8 +6,10 @@ import (
 	"net"
 
 	grpc "google.golang.org/grpc"
+	insecure "google.golang.org/grpc/credentials/insecure"
 	reflection "google.golang.org/grpc/reflection"
 
+	interceptors "github.com/MGomed/chat_server/internal/api/interceptors"
 	env_config "github.com/MGomed/chat_server/internal/config/env"
 	chat_api "github.com/MGomed/chat_server/pkg/chat_api"
 	closer "github.com/MGomed/common/pkg/closer"
@@ -76,7 +78,10 @@ func (a *App) initServiceProvider(_ context.Context) error {
 }
 
 func (a *App) initGRPCServer(ctx context.Context) error {
-	a.server = grpc.NewServer()
+	a.server = grpc.NewServer(
+		grpc.Creds(insecure.NewCredentials()),
+		grpc.UnaryInterceptor(interceptors.ValidateInterceptor),
+	)
 
 	reflection.Register(a.server)
 
@@ -90,6 +95,11 @@ func (a *App) runGRPCServer() error {
 	if err != nil {
 		return err
 	}
+	closer.Add(func() error {
+		a.server.Stop()
+
+		return nil
+	})
 
 	return a.server.Serve(lis)
 }
