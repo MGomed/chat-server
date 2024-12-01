@@ -4,7 +4,7 @@ import (
 	"log"
 
 	repository "github.com/MGomed/chat_server/internal/repository"
-	db "github.com/MGomed/common/pkg/client/db"
+	db "github.com/MGomed/common/client/db"
 )
 
 type service struct {

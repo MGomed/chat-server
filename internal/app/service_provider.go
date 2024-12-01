@@ -4,6 +4,7 @@ import (
 	"context"
 	"log"
 
+	"github.com/MGomed/chat_server/consts"
 	chat_api "github.com/MGomed/chat_server/internal/api/chat"
 	config "github.com/MGomed/chat_server/internal/config"
 	env_config "github.com/MGomed/chat_server/internal/config/env"
@@ -11,18 +12,19 @@ import (
 	chat_repo "github.com/MGomed/chat_server/internal/repository/chat"
 	service "github.com/MGomed/chat_server/internal/service"
 	chat_service "github.com/MGomed/chat_server/internal/service/chat"
-	db "github.com/MGomed/common/pkg/client/db"
-	pg "github.com/MGomed/common/pkg/client/db/pg"
-	transaction "github.com/MGomed/common/pkg/client/db/transaction"
-	closer "github.com/MGomed/common/pkg/closer"
-	logger "github.com/MGomed/common/pkg/logger"
+	db "github.com/MGomed/common/client/db"
+	pg "github.com/MGomed/common/client/db/pg"
+	transaction "github.com/MGomed/common/client/db/transaction"
+	closer "github.com/MGomed/common/closer"
+	logger "github.com/MGomed/common/logger"
 )
 
 type serviceProvider struct {
 	logger *log.Logger
 
-	pgConfig  config.PgConfig
-	apiConfig config.APIConfig
+	pgConfig     config.PgConfig
+	apiConfig    config.APIConfig
+	accessConfig config.AccessConfig
 
 	dbc   db.Client
 	txMgr db.TxManager
@@ -66,10 +68,24 @@ func (p *serviceProvider) APIConfig() config.APIConfig {
 	return p.apiConfig
 }
 
+// AccessConfig init/get access server config
+func (p *serviceProvider) AccessConfig() config.AccessConfig {
+	if p.accessConfig == nil {
+		cfg, err := env_config.NewAccessConfig()
+		if err != nil {
+			log.Fatalf("failed to create access service config: %v", err)
+		}
+
+		p.accessConfig = cfg
+	}
+
+	return p.accessConfig
+}
+
 // Logger init/get logger
 func (p *serviceProvider) Logger() *log.Logger {
 	if p.logger == nil {
-		p.logger = logger.InitLogger()
+		p.logger = logger.InitLogger(consts.ServiceName)
 	}
 
 	return p.logger

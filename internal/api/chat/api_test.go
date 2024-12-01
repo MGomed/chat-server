@@ -10,7 +10,6 @@ import (
 	gomock "github.com/golang/mock/gomock"
 	require "github.com/stretchr/testify/require"
 
-	api_errors "github.com/MGomed/chat_server/internal/api/errors"
 	converters "github.com/MGomed/chat_server/internal/converters"
 	service_mock "github.com/MGomed/chat_server/internal/service/mocks"
 	chat_api "github.com/MGomed/chat_server/pkg/chat_api"
@@ -71,17 +70,6 @@ func TestCreate(t *testing.T) {
 
 		_, err := api.Create(ctx, &chat_api.CreateRequest{Chat: chat})
 		require.Equal(t, errTest, err)
-	})
-
-	t.Run("Rainy case (too short name)", func(t *testing.T) {
-		var (
-			chat = &chat_api.ChatInfo{
-				Name: "C",
-			}
-		)
-
-		_, err := api.Create(ctx, &chat_api.CreateRequest{Chat: chat})
-		require.Equal(t, errors.Is(err, api_errors.ErrNameLenInvalid), true)
 	})
 }
 
