@@ -12,7 +12,7 @@ import (
 	interceptors "github.com/MGomed/chat_server/internal/api/interceptors"
 	env_config "github.com/MGomed/chat_server/internal/config/env"
 	chat_api "github.com/MGomed/chat_server/pkg/chat_api"
-	closer "github.com/MGomed/common/pkg/closer"
+	closer "github.com/MGomed/common/closer"
 )
 
 var configPath string
@@ -80,7 +80,10 @@ func (a *App) initServiceProvider(_ context.Context) error {
 func (a *App) initGRPCServer(ctx context.Context) error {
 	a.server = grpc.NewServer(
 		grpc.Creds(insecure.NewCredentials()),
-		grpc.UnaryInterceptor(interceptors.ValidateInterceptor),
+		grpc.ChainUnaryInterceptor(
+			interceptors.ValidateInterceptor,
+			interceptors.AccessInterceptor(a.serviceProvider.AccessConfig().Address()),
+		),
 	)
 
 	reflection.Register(a.server)

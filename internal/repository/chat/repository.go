@@ -1,7 +1,7 @@
 package chat
 
 import (
-	db "github.com/MGomed/common/pkg/client/db"
+	db "github.com/MGomed/common/client/db"
 )
 
 type repository struct {

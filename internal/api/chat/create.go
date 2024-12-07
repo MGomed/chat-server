@@ -9,10 +9,6 @@ import (
 
 // Create creates new chat
 func (a *API) Create(ctx context.Context, req *chat_api.CreateRequest) (*chat_api.CreateResponse, error) {
-	if err := validateName(req.Chat.GetName()); err != nil {
-		return nil, err
-	}
-
 	id, err := a.service.Create(ctx, service_conv.ToChatInfoFromAPI(req.Chat))
 	if err != nil {
 		return nil, err
