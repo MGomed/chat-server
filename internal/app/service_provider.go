@@ -20,7 +20,7 @@ import (
 )
 
 type serviceProvider struct {
-	logger *log.Logger
+	logger logger.Interface
 
 	pgConfig     config.PgConfig
 	apiConfig    config.APIConfig
@@ -83,9 +83,14 @@ func (p *serviceProvider) AccessConfig() config.AccessConfig {
 }
 
 // Logger init/get logger
-func (p *serviceProvider) Logger() *log.Logger {
+func (p *serviceProvider) Logger() logger.Interface {
 	if p.logger == nil {
-		p.logger = logger.InitLogger(consts.ServiceName)
+		logger.SetLogLevel("DEBUG")
+		logger.SetOutput("CONSOLE")
+		logger.SetStackTraceKey("stask")
+		logger.SetTimeKey("ts")
+
+		p.logger = logger.NewLogger(consts.ServiceName)
 	}
 
 	return p.logger
@@ -140,7 +145,7 @@ func (p *serviceProvider) Service(ctx context.Context) service.Service {
 // API init/get API(grpc implementation)
 func (p *serviceProvider) API(ctx context.Context) *chat_api.API {
 	if p.api == nil {
-		p.api = chat_api.NewAPI(p.Logger(), p.Service(ctx))
+		p.api = chat_api.NewAPI(p.Service(ctx))
 	}
 
 	return p.api
