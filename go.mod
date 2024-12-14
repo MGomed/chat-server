@@ -5,7 +5,7 @@ go 1.22.7
 toolchain go1.22.9
 
 require (
-	github.com/MGomed/common v1.2.1
+	github.com/MGomed/common v1.2.2
 	github.com/Masterminds/squirrel v1.5.4
 	github.com/envoyproxy/protoc-gen-validate v1.1.0
 	github.com/golang/mock v1.6.0
@@ -47,5 +47,3 @@ require (
 	golang.org/x/text v0.20.0 // indirect
 	google.golang.org/genproto/googleapis/rpc v0.0.0-20241104194629-dd2ea8efbc28 // indirect
 )
-
-replace github.com/MGomed/common => ../platform-common
