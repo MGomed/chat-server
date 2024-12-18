@@ -3,8 +3,6 @@ package chat
 import (
 	"context"
 	"errors"
-	"io"
-	"log"
 	"testing"
 
 	gomock "github.com/golang/mock/gomock"
@@ -12,11 +10,11 @@ import (
 
 	service_model "github.com/MGomed/chat_server/internal/model"
 	repo_mocks "github.com/MGomed/chat_server/internal/repository/mocks"
+	"github.com/MGomed/common/logger"
 )
 
 var (
-	ctx    context.Context
-	logger *log.Logger
+	ctx context.Context
 
 	ctl *gomock.Controller
 
@@ -29,12 +27,11 @@ var (
 
 func BeforeSuite(t *testing.T) {
 	ctx = context.Background()
-	logger = log.New(io.Discard, "", 0)
 
 	ctl = gomock.NewController(t)
 	mockRepo = repo_mocks.NewMockRepository(ctl)
 
-	serv = &service{logger: logger, repo: mockRepo}
+	serv = &service{logger: &logger.TestLogger{}, repo: mockRepo}
 
 	t.Cleanup(ctl.Finish)
 }
